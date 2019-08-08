@@ -8,6 +8,9 @@ import java.sql.Statement;
 
 import edu.gcu.cst235.service.ScoreBean;
 
+/**
+ * Provides all database functionality for the score service web service
+ */
 public class DataSource implements iDataSource {
 	private Connection conn;
 	private Statement stmt;
@@ -17,6 +20,12 @@ public class DataSource implements iDataSource {
 	private String dbUser = "root";
 	private String dbPassword = "root";
 
+	/**
+	 * Constructor for DataSource objects that opens a connection to the database and
+	 * creates a statement object.
+	 * THE JDBC JAR FILE MUST BE ADDED TO DEPLOYMENT PATH IN PROJECT PROPERTIES
+	 * OR IT WILL THROW ClassNotFoundException
+	 */
 	public DataSource() {
 		try {
 			//Something required to run in TomEE server
@@ -48,16 +57,26 @@ public class DataSource implements iDataSource {
 		}
 	}
 	
+	/**
+	 * Closes an open database connection
+	 */
 	@Override
 	public void close() {
-		try {
-			this.conn.close();
-		}
-		catch(SQLException e) {
-			e.printStackTrace();
+		if(this.connectedToDb) {
+			try {
+				this.conn.close();
+			}
+			catch(SQLException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
+	/**
+	 * Gets wins, losses, and ties from the database
+	 * and creates a ScoreBean object with the data 
+	 * @return a ScoreBean object with wins, losses, and ties retrieved from the database
+	 */
 	@Override
 	public ScoreBean getScoreBean() {
 		//Prepare the SQL statement
@@ -85,6 +104,10 @@ public class DataSource implements iDataSource {
 		return null;
 	}
 
+	/**
+	 * Updates the database with data from a ScoreBean object
+	 * @param score a ScoreBean object containing wins, losses, and ties
+	 */
 	@Override
 	public boolean updateScoreBean(ScoreBean score) {
 		String sql = "UPDATE rpsscores.scores SET "
@@ -103,5 +126,4 @@ public class DataSource implements iDataSource {
 		}
 		return false;
 	}
-
 }

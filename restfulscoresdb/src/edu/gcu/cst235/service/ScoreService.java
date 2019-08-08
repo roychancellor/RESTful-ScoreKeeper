@@ -1,3 +1,6 @@
+/**
+ * Web service that keeps track of wins, losses, and ties for a rock-paper-scissors game
+ */
 package edu.gcu.cst235.service;
 
 import java.util.Arrays;
@@ -12,15 +15,19 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import edu.gcu.cst235.service.model.DataSource;
 
-
 @ApplicationPath("/")
 public class ScoreService extends Application {
 	
+	/**
+	 * Required method to deploy this class as a web service
+	 */
 	public Set<Class<?>> getClasses() {
 		return new HashSet<Class<?>>(Arrays.asList(ScoreService.class)); 
 	}
 	
 	/**
+	 * Gets a ScoreBean from the database, parses it as a JSON string
+	 * and returns the JSON string to the caller
 	 * @return a JSON string with wins, losses, and ties for the Rock-Paper-Scissors game underway
 	 */
 	@GET
