@@ -13,11 +13,11 @@ public interface iDataSource {
 	 * @param score a ScoreBean containing wins, losses, and ties
 	 * @return true if bean successfully retrieved
 	 */
-	boolean updateScoreBean(ScoreBean score);
+	boolean dbUpdateScoreBean(ScoreBean score);
 
 	/**
 	 * READ and return a ScoreBean
 	 * @return a ScoreBean object
 	 */
-	ScoreBean getScoreBean();
+	ScoreBean dbGetScoreBean();
 }

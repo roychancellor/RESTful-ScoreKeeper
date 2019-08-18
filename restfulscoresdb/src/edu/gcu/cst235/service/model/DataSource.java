@@ -78,7 +78,7 @@ public class DataSource implements iDataSource {
 	 * @return a ScoreBean object with wins, losses, and ties retrieved from the database
 	 */
 	@Override
-	public ScoreBean getScoreBean() {
+	public ScoreBean dbGetScoreBean() {
 		//Prepare the SQL statement
 		String sql = "SELECT * FROM rpsscores.scores WHERE rpsscores.scores.gameId=1";
 		if(this.connectedToDb) {
@@ -109,7 +109,7 @@ public class DataSource implements iDataSource {
 	 * @param score a ScoreBean object containing wins, losses, and ties
 	 */
 	@Override
-	public boolean updateScoreBean(ScoreBean score) {
+	public boolean dbUpdateScoreBean(ScoreBean score) {
 		String sql = "UPDATE rpsscores.scores SET "
 			+ "wins = " + score.getWins()
 			+ ", losses = " + score.getLosses()

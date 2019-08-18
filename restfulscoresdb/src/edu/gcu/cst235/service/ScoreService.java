@@ -42,7 +42,7 @@ public class ScoreService extends Application {
 			String jsonString;
 			//Convert the POJO (java bean) to a JSON string
 			//Uses Jackson 2.0 to parse out a serializable POJO
-			jsonString = mapper.writeValueAsString(ds.getScoreBean());
+			jsonString = mapper.writeValueAsString(ds.dbGetScoreBean());
 			ds.close();
 			return jsonString;
 		}
@@ -58,27 +58,27 @@ public class ScoreService extends Application {
 	 * increases the wins in the RPS game
 	 * @return the wins increased by 1
 	 */
-	@POST @Path("/scorebean/wins")@Produces("text/plain")
-	public int increaseWins() {
-		return increaseScore('w');
+	@POST @Path("/scorebean/wins")@Produces("application/json")
+	public String increaseWins() {
+		return "{\"wins\" : \"" + increaseScore('w') + "\"}";
 	}
 	     
 	/**
 	 * increases the losses in the RPS game
 	 * @return the losses increased by 1
 	 */
-	@POST @Path("/scorebean/losses")@Produces("text/plain")         
-	public int increaseLosses() {
-		return increaseScore('l');
+	@POST @Path("/scorebean/losses")@Produces("application/json")         
+	public String increaseLosses() {
+		return "{\"losses\" : \"" + increaseScore('l') + "\"}";
 	}
 	
 	/**
 	 * increases the ties in the RPS game
 	 * @return the ties increased by 1
 	 */
-	@POST @Path("/scorebean/ties")@Produces("text/plain")      
-	public int increaseTies() {
-		return increaseScore('t');
+	@POST @Path("/scorebean/ties")@Produces("application/json")      
+	public String increaseTies() {
+		return "{\"ties\" : \"" + increaseScore('t') + "\"}";
 	}
 	
 	/**
@@ -120,7 +120,7 @@ public class ScoreService extends Application {
 	 */
 	private ScoreBean getScoreBeanFromDb() {
 		DataSource ds = new DataSource();
-		ScoreBean currentScore = ds.getScoreBean();
+		ScoreBean currentScore = ds.dbGetScoreBean();
 		ds.close();
 		return currentScore;
 	}
@@ -131,7 +131,7 @@ public class ScoreService extends Application {
 	 */
 	private void writeScoreBeanToDb(ScoreBean bean) {
 		DataSource ds = new DataSource();
-		ds.updateScoreBean(bean);
+		ds.dbUpdateScoreBean(bean);
 		ds.close();
 	}
 }
